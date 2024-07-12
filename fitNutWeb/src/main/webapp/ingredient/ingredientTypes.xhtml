@@ -2,11 +2,16 @@
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
+    <f:metadata>
+        <ui:param name="controller" value="#{ingredientTypeController}"/>
+        <ui:param name="searchForm" value="#{ingredientTypeSearchForm}"/>
+    </f:metadata>
+
     <ui:define name="content">
         <div class="ui-g">
             <div class="ui-g-12">
                 <div class="card">
-                    <h1>Home</h1>
+                    <h1>Type d'ingredient</h1>
 
                     <h:form id="form">
                         <p:spinner />

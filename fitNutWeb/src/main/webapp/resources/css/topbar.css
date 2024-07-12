@@ -1,0 +1,13 @@
+.topBarRed {
+    background-color: red !important;
+}
+
+.layout-topbar-left
+{
+    width: calc(100% - 50px);
+}
+
+.layout-topbar-right
+{
+    width: 50px;
+}

@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+>
+
+    <div class="layout-rightpanel">
+        <div class="rightpanel-transparent" onclick="changeRightPanelDisplayState();">
+        </div>
+
+        <div class="rightpanel-actions">
+            <div class="actions">
+                <div class="action-buttons">
+                    <ul style="list-style-type: none;">
+                        <li class="topbar-item">
+                            <h:form id="myDataForm">
+                                <p:commandLink id="myData" actionListener="#{sessionBean.myData}">
+                                    <i class="pi pi-fw pi-user" aria-hidden="true"/>
+                                    <span>Profil</span>
+                                </p:commandLink>
+                            </h:form>
+                        </li>
+                        <li class="topbar-item">
+                            <p:link onclick="showDialog('appInfoDialog'); return false;">
+                                <i class="topbar-icon pi pi-fw pi-info" aria-hidden="true"/>
+                                <span class="topbar-item-name">Info</span>
+                            </p:link>
+                        </li>
+
+                        <li role="menuitem" class="topbar-item">
+                            <h:form id="logoutForm">
+                                <p:commandLink id="logout" actionListener="#{sessionBean.logout}">
+                                    <i class="pi pi-fw pi-sign-out" aria-hidden="true"/>
+                                    <span>Logout</span>
+                                </p:commandLink>
+                            </h:form>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ui:composition>

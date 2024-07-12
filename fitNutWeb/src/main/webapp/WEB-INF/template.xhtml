@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html id="root" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 
-<f:view locale="#{sessionBean.locale}">
+<f:view locale="fr-FR">
 
     <h:head>
         <f:facet name="first">
@@ -13,12 +12,12 @@
             <meta name="apple-mobile-web-app-capable" content="yes"/>
         </f:facet>
 
-        <title><ui:insert name="title">Kran Kaufmann #{sessionUtil.currentFunctionInfos}</ui:insert></title>
+        <title><ui:insert name="title">FitNut Web</ui:insert></title>
 
         <!--<link href="#{request.contextPath}/resources/images/favicon.ico?v=RyyR6aw6zk" type="image/x-icon"
               rel="shortcut icon"/>-->
 
-        <!-- TODO aba <h:outputScript id="kranJs" library="js" name="kran.js"/>-->
+        <h:outputScript id="kranJs" library="js" name="fitNut.js"/>
 
         <ui:insert name="head"/>
     </h:head>
@@ -26,16 +25,6 @@
     <h:body>
 
         <div class="layout-wrapper layout-topbar-light layout-menu-light layout-horizontal">
-
-            <!-- TODO aba
-            <h:form prependId="false" id="pollMessageForm">
-                <p:remoteCommand id="templateId101" name="needUpdateOnRightPanelNotificationListPanel" update="notificationListPanel"
-                                 autoRun="false"/>
-                <p:poll interval="10" listener="#{sessionUtil.checkMessageForUser}" update="notificationBadge"
-                        oncomplete="updateOnNeededRightPanel();"/>
-            </h:form>
-            -->
-
             <p:dialog id="blockPage" widgetVar="blockPage" modal="true" closable="false" draggable="false"
                       styleClass="blockPage">
                 <h:graphicImage library="images" name="ajax-loader1.gif"
@@ -43,11 +32,8 @@
                 <h:outputText value="#{msg['all.label.wait_please']}" style="white-space: nowrap;"/>
             </p:dialog>
 
-            <!-- TODO aba
             <ui:include src="topbar.xhtml"/>
-            <ui:include src="menu.xhtml"/>
             <ui:include src="rightpanel.xhtml"/>
-            -->
 
             <div class="layout-content">
                 <div class="">
@@ -77,7 +63,6 @@
         </p:ajaxStatus>
 
         <h:form id="dialogForm">
-
             <p:confirmDialog id="globalConfirmDialog" global="true" closeOnEscape="true"
                              header="#{msg['all.label.confirmDelete']}"
                              message="#{msg[menuId.concat('.label.confirmDelete')]}" responsive="true">
@@ -178,20 +163,16 @@
 
         </h:form>
 
-        <ui:include src="/include/js_translations.xhtml"/>
+        <ui:include src="js_translations.xhtml"/>
 
         <ui:insert name="cssClasses"/>
     </h:body>
 
-    <!-- TODO aba
-    <h:outputStylesheet id="kranCss" library="css" name="kran.css"/>
-    -->
-
-    <!-- TODO aba
+    <h:outputStylesheet id="fitNutCss" library="css" name="fitNut.css"/>
     <h:outputStylesheet id="topbarCss" library="css" name="topbar.css"/>
     <h:outputStylesheet id="menuCss" library="css" name="menu.css"/>
     <h:outputStylesheet id="rightpanelCss" library="css" name="rightpanel.css"/>
-    -->
+
 </f:view>
 
 </html>

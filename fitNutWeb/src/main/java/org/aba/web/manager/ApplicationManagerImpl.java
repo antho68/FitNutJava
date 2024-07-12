@@ -1,6 +1,7 @@
 package org.aba.web.manager;
 
 import org.aba.web.utils.CommonUtils;
+import org.aba.web.utils.ConstantsWeb;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
@@ -91,4 +92,8 @@ public class ApplicationManagerImpl implements Serializable, ApplicationManager
 
     }
 
+    public boolean isTestSystem()
+    {
+        return ConstantsWeb.SystemStages.DEVELOPMENT.equals(getSystemStage());
+    }
 }

@@ -32,8 +32,8 @@ public class CronConfigReloadCheckImpl implements CronConfigReloadCheck, Seriali
     @Async
     public void runScheduled()
     {
-        CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "CronConfigReloadCheckImpl running on: "
-                + CommonUtils.getDateAndTimeLongFormatted(applicationManager.getApplDate()));
+//        CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "CronConfigReloadCheckImpl running on: "
+//                + CommonUtils.getDateAndTimeLongFormatted(applicationManager.getApplDate()));
 
         Date lastDateOnDatabase = null;
 

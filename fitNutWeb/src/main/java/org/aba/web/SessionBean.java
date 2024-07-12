@@ -42,6 +42,8 @@ public class SessionBean implements Serializable
     private String lastPageCalled = "";
     private String sessionId;
     private boolean loggedIn;
+    private Long autoLogoutTimeout;
+    private String currentFunctionInfos;
 
     @PostConstruct
     public void init()
@@ -92,7 +94,6 @@ public class SessionBean implements Serializable
 
     public void logout()
     {
-        // Faces.removeResponseCookie(KranConstantsWeb.AUTH_COOKIE, "/");
         CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "clear login Cookie");
         CookieHelper.setCookie(getCookieName(), "undefined", 0);
 
@@ -127,14 +128,14 @@ public class SessionBean implements Serializable
         return ConstantsWeb.AUTH_COOKIE + applicationManager.getSystemStage();
     }
 
-    protected void setAutoLogoutTimeout(Integer autoLogoutTimeout)
+    protected void setAutoLogoutTimeout(Integer autoLogoutTimeoutParam)
     {
-        if (autoLogoutTimeout == null)
+        if (autoLogoutTimeoutParam == null)
         {
-            autoLogoutTimeout = ConstantsWeb.FALLBACK_AUTOLOGOUT_MINUTES;
+            autoLogoutTimeoutParam = ConstantsWeb.FALLBACK_AUTOLOGOUT_MINUTES;
         }
 
-        setAutoLogoutTimeout(autoLogoutTimeout);
+        this.autoLogoutTimeout = 60000L * (long) autoLogoutTimeoutParam;
     }
 
     public boolean isShouldInitSupplier()
@@ -219,5 +220,15 @@ public class SessionBean implements Serializable
     public void setLastAccessedTs(Date lastAccessedTs)
     {
         this.lastAccessedTs = lastAccessedTs;
+    }
+
+    public String getCurrentFunctionInfos()
+    {
+        return currentFunctionInfos;
+    }
+
+    public void setCurrentFunctionInfos(String currentFunctionInfos)
+    {
+        this.currentFunctionInfos = currentFunctionInfos;
     }
 }

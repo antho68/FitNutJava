@@ -1,0 +1,43 @@
+.menu-wrapper .layout-menu-container .layout-menu li > a
+{
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.layout-wrapper.layout-horizontal .menu-wrapper .layout-menu-container .layout-menu > li > ul
+{
+    width: 280px;
+}
+
+.layout-menu-light .menu-wrapper .layout-menu-container .layout-menu > li a
+{
+    color: #395995 !important;
+}
+
+@media (max-width: 991px) {
+    .menu-wrapper {
+        width: 300px;
+    }
+
+    .layout-wrapper .menu-wrapper
+    {
+        transform: translate3d(-300px, 0px, 0px);
+    }
+
+    .menu-wrapper .layout-menu-container .layout-menu li
+    {
+        padding: 0px 8px 10px;
+    }
+
+    .menu-wrapper .layout-menu-container .layout-menu li.layout-root-menuitem > div > .layout-menuitem-text
+    {
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: overline;
+    }
+
+    .layout-menu-light .menu-wrapper .layout-menu-container .layout-menu > li > div .layout-menuitem-text
+    {
+        color: #395995;
+    }
+}

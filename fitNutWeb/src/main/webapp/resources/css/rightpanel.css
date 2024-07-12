@@ -1,0 +1,28 @@
+.layout-rightpanel
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+.layout-rightpanel-active
+{
+    display: flex;
+}
+
+.rightpanel-transparent
+{
+    width: calc(100% - 300px);
+    height: 100%;
+}
+
+.rightpanel-actions
+{
+    width: 300px;
+    height: 100%;
+    background-color: var(--background-color);
+    border-left: 2px solid var(--primary-color);
+}
