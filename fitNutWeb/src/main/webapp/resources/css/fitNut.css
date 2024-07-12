@@ -231,3 +231,8 @@
     padding: 0 !important;
     margin: 0 !important;
 }
+
+.panelGridWithNoBorder > tbody > tr > td.ui-panelgrid-cell
+{
+    border: none;
+}

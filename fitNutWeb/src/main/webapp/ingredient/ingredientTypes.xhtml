@@ -12,11 +12,45 @@
             <div class="ui-g-12">
                 <div class="card">
                     <h1>Type d'ingredient</h1>
+                    <h:form prependId="false">
+                        <p:panel id="filterPanel" header="Filtre" toggleable="true" closable="false" toggleSpeed="500"
+                                 closeSpeed="500" widgetVar="filterPanel">
 
-                    <h:form id="form">
-                        <p:spinner />
+                            <p:panelGrid columns="6" layout="grid">
+
+                                <p:outputLabel value="Pk:"/>
+                                <p:inputText value="#{searchForm.pk}">
+                                    <p:ajax update="dataPanel" event="blur" listener="#{controller.search}"/>
+                                </p:inputText>
+
+                                <p:outputLabel value="Nom:"/>
+                                <p:inputText value="#{searchForm.name}">
+                                    <p:ajax update="dataPanel" event="blur" listener="#{controller.search}"/>
+                                </p:inputText>
+
+                                <p:outputLabel value=""/>
+                                <p:outputLabel value=""/>
+
+                            </p:panelGrid>
+
+                            <p:panelGrid columns="0" layout="tabular" style="width: 100%"
+                                         styleClass="panelGridWithNoBorder">
+                                <p:row>
+                                    <p:column/>
+
+                                    <p:column style="text-align: right">
+                                        <p:commandButton value="Vider les filtres" update="filterPanel"
+                                                         actionListener="#{controller.clearFilter}"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+
+                        </p:panel>
+
+                        <p:panel closable="false" toggleable="false" id="dataPanel">
+
+                        </p:panel>
                     </h:form>
-
                 </div>
             </div>
         </div>

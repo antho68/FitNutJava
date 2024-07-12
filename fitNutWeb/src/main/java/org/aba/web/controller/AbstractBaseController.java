@@ -30,6 +30,17 @@ public abstract class AbstractBaseController<SF extends AbstractSearchForm> impl
         }
     }
 
+    public void clearFilter()
+    {
+        searchForm.clearForm();
+        search();
+    }
+
+    public void search()
+    {
+
+    }
+
     protected ParameterizedType getParameterizedType()
     {
         Class<?> clazz = null;

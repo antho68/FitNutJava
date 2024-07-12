@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 @Scope("view")
 public class IngredientTypeSearchForm extends AbstractSearchForm
 {
+    private String pk;
+    private String name;
 
     @Override
     public void initSearchFormData()
@@ -17,6 +19,27 @@ public class IngredientTypeSearchForm extends AbstractSearchForm
     @Override
     public void clearForm()
     {
+        setPk(null);
+        setName(null);
+    }
 
+    public String getPk()
+    {
+        return pk;
+    }
+
+    public void setPk(String pk)
+    {
+        this.pk = pk;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 }

@@ -45,6 +45,7 @@ public class MenuController implements Serializable
      */
     private void buildMenu()
     {
+        String appName = "fitNutWeb";
         model = new DefaultMenuModel();
 
         DefaultMenuItem rootMenu = new DefaultMenuItem();
@@ -61,13 +62,13 @@ public class MenuController implements Serializable
         DefaultMenuItem ingredientList = new DefaultMenuItem();
         ingredientList.setValue("Alliment");
         ingredientList.setIcon("pi pi-align-justify");
-        ingredientList.setUrl("/ingredient/ingredients.xhtml");
+        ingredientList.setUrl("ingredient/ingredients.xhtml");
         nutSM.getElements().add(ingredientList);
 
         DefaultMenuItem ingredientTypeList = new DefaultMenuItem();
         ingredientTypeList.setValue("Type d'alliment");
         ingredientTypeList.setIcon("pi pi-align-justify");
-        ingredientTypeList.setUrl("/ingredient/ingredientTypes.xhtml");
+        ingredientTypeList.setUrl("ingredient/ingredientTypes.xhtml");
         nutSM.getElements().add(ingredientTypeList);
 
         //Exercise
@@ -79,13 +80,13 @@ public class MenuController implements Serializable
         DefaultMenuItem exerciseList = new DefaultMenuItem();
         exerciseList.setValue("Exercice");
         exerciseList.setIcon("pi pi-align-justify");
-        exerciseList.setUrl("/exercise/exercises.xhtml");
+        exerciseList.setUrl("exercise/exercises.xhtml");
         exerciseSM.getElements().add(exerciseList);
 
         DefaultMenuItem exerciseTypeList = new DefaultMenuItem();
         exerciseTypeList.setValue("Type d'exercice");
         exerciseTypeList.setIcon("pi pi-align-justify");
-        exerciseTypeList.setUrl("/exercise/exerciseTypes.xhtml");
+        exerciseTypeList.setUrl("exercise/exerciseTypes.xhtml");
         exerciseSM.getElements().add(exerciseTypeList);
 
     }
