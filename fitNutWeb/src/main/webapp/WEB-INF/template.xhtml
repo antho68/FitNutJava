@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html id="root" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<f:view locale="#{sessionBean.locale}">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes"/>
+        </f:facet>
+
+        <title><ui:insert name="title">Kran Kaufmann #{sessionUtil.currentFunctionInfos}</ui:insert></title>
+
+        <!--<link href="#{request.contextPath}/resources/images/favicon.ico?v=RyyR6aw6zk" type="image/x-icon"
+              rel="shortcut icon"/>-->
+
+        <!-- TODO aba <h:outputScript id="kranJs" library="js" name="kran.js"/>-->
+
+        <ui:insert name="head"/>
+    </h:head>
+
+    <h:body>
+
+        <div class="layout-wrapper layout-topbar-light layout-menu-light layout-horizontal">
+
+            <!-- TODO aba
+            <h:form prependId="false" id="pollMessageForm">
+                <p:remoteCommand id="templateId101" name="needUpdateOnRightPanelNotificationListPanel" update="notificationListPanel"
+                                 autoRun="false"/>
+                <p:poll interval="10" listener="#{sessionUtil.checkMessageForUser}" update="notificationBadge"
+                        oncomplete="updateOnNeededRightPanel();"/>
+            </h:form>
+            -->
+
+            <p:dialog id="blockPage" widgetVar="blockPage" modal="true" closable="false" draggable="false"
+                      styleClass="blockPage">
+                <h:graphicImage library="images" name="ajax-loader1.gif"
+                                style="margin-right: 12px; vertical-align: middle;"/>
+                <h:outputText value="#{msg['all.label.wait_please']}" style="white-space: nowrap;"/>
+            </p:dialog>
+
+            <!-- TODO aba
+            <ui:include src="topbar.xhtml"/>
+            <ui:include src="menu.xhtml"/>
+            <ui:include src="rightpanel.xhtml"/>
+            -->
+
+            <div class="layout-content">
+                <div class="">
+                    <h:form id="ildeForm">
+                        <!-- 1500000 -->
+                        <p:remoteCommand id="templateId102" autoRun="true" delay="60000" actionListener="#{sessionBean.keepAlive}"
+                                         update="ildeForm"/>
+                    </h:form>
+
+                    <ui:insert name="content"/>
+                </div>
+            </div>
+
+            <ui:include src="footer.xhtml"/>
+
+            <div class="layout-mask"></div>
+        </div>
+
+        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+            <f:facet name="start">
+                <i class="ajax-status-icon pi pi-spinner pi-spin" aria-hidden="true"/>
+            </f:facet>
+
+            <f:facet name="complete">
+                <h:outputText/>
+            </f:facet>
+        </p:ajaxStatus>
+
+        <h:form id="dialogForm">
+
+            <p:confirmDialog id="globalConfirmDialog" global="true" closeOnEscape="true"
+                             header="#{msg['all.label.confirmDelete']}"
+                             message="#{msg[menuId.concat('.label.confirmDelete')]}" responsive="true">
+                <p:commandButton id="templateId103" value="#{msg['all.label.yes']}" type="button" styleClass="ui-confirmdialog-yes"
+                                 icon="pi pi-check"/>
+                <p:commandButton id="templateId104" value="#{msg['all.label.no']}" type="button" styleClass="ui-confirmdialog-no"
+                                 icon="pi pi-times"/>
+            </p:confirmDialog>
+
+            <p:dialog id="errorDialog" header="#{msg['all.label.error']}" widgetVar="errorDialog"
+                      closable="false" width="500"
+                      closeOnEscape="true" severity="" styleClass="errorDialog"
+                      responsive="true">
+
+                <p:messages showDetail="false" closable="false" severity="error" escape="false" styleClass="col100">
+                    <p:autoUpdate/>
+                </p:messages>
+
+                <f:facet name="footer">
+                    <p:commandButton id="confirmErrorDialog" value="#{msg['all.label.ok']}"
+                                     onclick="hideDialog('errorDialog')" style="background-color: red;"
+                                     actionListener="#{sessionUtil.resetMessagesListener}"/>
+                </f:facet>
+            </p:dialog>
+
+            <p:dialog id="warningDialog" header="#{msg['all.label.warning']}" widgetVar="warningDialog"
+                      closable="false" width="500" closeOnEscape="true"
+                      severity="" styleClass="warningDialogClass" responsive="true">
+
+                <p:messages showDetail="false" closable="false" severity="warning" escape="false"
+                            styleClass="col100">
+                    <p:autoUpdate/>
+                </p:messages>
+
+                <f:facet name="footer">
+                    <p:commandButton id="confirmWarningDialog" value="#{msg['all.label.ok']}"
+                                     onclick="hideDialog('warningDialog')"
+                                     actionListener="#{sessionUtil.resetMessagesListener}"/>
+                </f:facet>
+            </p:dialog>
+
+            <p:dialog id="infoDialog" header="#{msg['all.label.info']}" widgetVar="infoDialog" closable="false"
+                      closeOnEscape="true" severity="" width="500">
+
+                <p:messages showDetail="false" closable="false" severity="info" escape="false" styleClass="col100">
+                    <p:autoUpdate/>
+                </p:messages>
+
+                <f:facet name="footer">
+                    <p:commandButton id="confirmInfoDialog" value="#{msg['all.label.ok']}"
+                                     onclick="hideDialog('infoDialog')"
+                                     actionListener="#{sessionUtil.resetMessagesListener}"/>
+                </f:facet>
+            </p:dialog>
+
+            <p:confirmDialog id="fatalDialog" header="#{msg['all.label.exception']}" widgetVar="fatalDialog"
+                             closable="true"
+                             visible="#{not empty param['fatalDialog']}" severity="alert" closeOnEscape="true">
+                <f:facet name="message">
+                    <h:outputText value="#{msg['all.error.exception']}" escape="false"/>
+                    <br/>
+                    <br/>
+                    <p:messages showDetail="false" closable="false">
+                        <p:autoUpdate/>
+                    </p:messages>
+                </f:facet>
+                <p:commandButton id="confirmFatalDialog" value="#{msg['all.label.ok']}"
+                                 onclick="hideDialog('fatalDialog')"
+                                 actionListener="#{sessionUtil.resetMessagesListener}"/>
+            </p:confirmDialog>
+
+        </h:form>
+
+        <h:form id="appInfoDialogForm" prependId="true">
+            <p:dialog id="appInfoDialogId" widgetVar="appInfoDialog" width="320" height="130" modal="true"
+                      dynamic="true" closable="true"
+                      onShow="inactiveDefaultButton();setFocus()" header="#{msg['all.label.info']}" showEffect="clip"
+                      hideEffect="clip" closeOnEscape="true">
+
+                <h:panelGrid id="appInfoDialogGrid" columns="2" columnClasses="col50,col50" styleClass="col100">
+                    <p:outputLabel id="templateId105" for="buildVersion" value="#{msg['all.label.buildVersion']}:"/>
+                    <h:outputText id="buildVersion" value="#{appInfo.buildVersion}"/>
+                    <p:outputLabel id="templateId106" for="buildDate" value="#{msg['all.label.buildDate']}:"/>
+                    <h:outputText id="buildDate" value="#{appInfo.buildDate}"/>
+                </h:panelGrid>
+
+                <br/>
+
+                <h:panelGrid id="appInfoDialogGrid2" columns="2" columnClasses="col1,align_right" styleClass="col100">
+                    <p:commandButton id="closeButton" value="#{msg['all.label.close']}"
+                                     styleClass="ui-button greyButton" icon="pi pi-close Fs14"
+                                     oncomplete="hideDialog('appInfoDialog');" immediate="true"
+                                     title="#{msg['all.label.close']}" alt="#{msg['all.label.close']}">
+                    </p:commandButton>
+                </h:panelGrid>
+
+            </p:dialog>
+
+        </h:form>
+
+        <ui:include src="/include/js_translations.xhtml"/>
+
+        <ui:insert name="cssClasses"/>
+    </h:body>
+
+    <!-- TODO aba
+    <h:outputStylesheet id="kranCss" library="css" name="kran.css"/>
+    -->
+
+    <!-- TODO aba
+    <h:outputStylesheet id="topbarCss" library="css" name="topbar.css"/>
+    <h:outputStylesheet id="menuCss" library="css" name="menu.css"/>
+    <h:outputStylesheet id="rightpanelCss" library="css" name="rightpanel.css"/>
+    -->
+</f:view>
+
+</html>

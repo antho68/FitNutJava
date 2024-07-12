@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                    <h1>FitNut - Welcome</h1>
+
+                    <h:form id="form">
+                        <p:spinner />
+                    </h:form>
+
+                    <p:blockUI id="blockCrudForm" block="crudDialogId" widgetVar="blockUIWidget1">
+                        <h:graphicImage library="images" name="ajax-loader1.gif"
+                                        style="margin-right: 12px; vertical-align: middle;"/>
+                        <h:outputText value="Veuillez patienter .." style="white-space: nowrap;"/>
+                    </p:blockUI>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

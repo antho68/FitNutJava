@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+    <Properties>
+        <Property name="log-path">C:\temp\fitNutMaster</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%5p] [%d] (%F:%M:%L) %m%n"/>
+        </Console>
+
+        <RollingFile name="performaceLoggerFile" fileName="${log-path}/performance.log"
+                     filePattern="${log-path}/performance_%d{yyyy-MM-dd}-%i.log.zip">
+            <PatternLayout>
+                <Pattern>[%5p] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="2 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+        <RollingFile name="debugLogFile" fileName="${log-path}/debug.log"
+                     filePattern="${log-path}/debug_%d{yyyy-MM-dd}-%i.log.zip">
+            <PatternLayout>
+                <Pattern>[%5p] [%d] (%F:%M:%L) %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+        <RollingFile name="applLogFile" fileName="${log-path}/appl.log"
+                     filePattern="${log-path}/appl_%d{yyyy-MM-dd}-%i.log.zip">
+            <PatternLayout>
+                <Pattern>[%5p] [%d] (%F:%M:%L) %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="2 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+        <RollingFile name="mailLogFile" fileName="${log-path}/mail.log"
+                     filePattern="${log-path}/appl_%d{yyyy-MM-dd}-%i.log.zip">
+            <PatternLayout>
+                <Pattern>[%5p] [%d] (%F:%M:%L) %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="2 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+        <RollingFile name="timerLogFile" fileName="${log-path}/timer.log"
+                     filePattern="${log-path}/timer_%d{yyyy-MM-dd}-%i.log.zip">
+            <PatternLayout>
+                <Pattern>[%5p] [%d] (%F:%M:%L) %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="2 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+        <RollingFile name="errorLogFile" fileName="${log-path}/error.log"
+                     filePattern="${log-path}/error_%d{yyyy-MM-dd}-%i.log.zip">
+            <PatternLayout>
+                <Pattern>[%5p] [%d] (%F:%M:%L) %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="2 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+        <RollingFile name="alarmLogFile" fileName="${log-path}/alarm.log"
+                     filePattern="${log-path}/alarm_%d{yyyy-MM-dd}-%i.log.zip">
+            <PatternLayout>
+                <Pattern>%m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="2 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+        <RollingFile name="sqlFile" fileName="${log-path}/sql.log"
+                     filePattern="${log-path}/sql_%d{yyyy-MM-dd}-%i.log.zip">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %X{logId}: %m%n%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="2 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+        <Logger name="org.springframework" level="info">
+            <appender-ref ref="STDOUT"/>
+        </Logger>
+        <Logger name="org.hibernate" level="info">
+            <appender-ref ref="STDOUT"/>
+        </Logger>
+        <Logger name="org.hibernate.orm.deprecation" level="error" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </Logger>
+
+        <!-- Log cache -->
+        <Logger name="org.hibernate.cache" level="info" additivity="false">
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        <Logger name="org.ehcache" level="info" additivity="false">
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+
+        <logger name="errorLogger" level="error" additivity="false">
+            <appender-ref ref="errorLogFile"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="debugLogger" level="debug" additivity="false">
+            <appender-ref ref="debugLogFile"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="applLogger" level="trace" additivity="false">
+            <appender-ref ref="applLogFile"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="mailLogger" level="trace" additivity="false">
+            <appender-ref ref="mailLogFile"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="timerLogger" level="debug" additivity="false">
+            <appender-ref ref="timerLogFile"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="alarmLogger" level="trace" additivity="false">
+            <appender-ref ref="alarmLogFile"/>
+        </logger>
+        <logger name="log4jdbc.log4j2" level="info" additivity="false">
+            <MarkerFilter marker="LOG4JDBC_NON_STATEMENT" onMatch="DENY" onMismatch="NEUTRAL"/>
+            <appender-ref ref="sqlFile"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="performaceLogger" level="debug" additivity="false">
+            <appender-ref ref="performaceLoggerFile"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+
+        <!-- Log cache -->
+        <Logger name="org.hibernate.cache" level="debug" additivity="false">
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        <Logger name="org.ehcache" level="debug" additivity="false">
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+    </Loggers>
+
+</Configuration>

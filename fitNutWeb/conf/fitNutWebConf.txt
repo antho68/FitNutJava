@@ -1,0 +1,19 @@
+# Config File for overwriting application-properties from kranBackend/jar
+# Add this to Tomcat's VM arguments: -DconfigFileLocationKranWeb=file:C:\YourPathTo\kranWebConf.txt
+
+####### misc ##########
+# app.name must be unique per tomcat!
+app.name=fitNutWeb
+
+# name of the webserver - shown in admin page to check the tomcat instance
+webserver.name=developer
+system.stage=dev
+
+# set the path to the external log4JFile
+log4j.fileLocation=file:\\C:\\dev\\projects\\FitNut\\fitNutWeb\\conf\\fitNutWebLog4j2.xml
+
+######## MAGO Connector service ###########
+hubConnector.rest.uri=http://82.65.144.121:8091/api/v3
+hubConnector.rest.user=myHubApp
+hubConnector.rest.password=WX_+M-K2HgtFT4B5
+hubConnector.rest.timeout=30

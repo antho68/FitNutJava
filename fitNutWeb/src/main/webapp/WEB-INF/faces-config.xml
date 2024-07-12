@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<faces-config
+        xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+        version="2.2">
+
+    <name>FitNut</name>
+    <application>
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+        <locale-config>
+            <default-locale>fr</default-locale>
+        </locale-config>
+    </application>
+
+    <lifecycle>
+        <phase-listener>org.springframework.web.jsf.DelegatingPhaseListenerMulticaster</phase-listener>
+    </lifecycle>
+
+    <factory>
+        <exception-handler-factory>org.aba.jsf.error.FitNutExceptionHandlerFactory</exception-handler-factory>
+    </factory>
+
+    <navigation-rule>
+        <description>Common Navigation</description>
+        <from-view-id>*</from-view-id>
+<!--  TODO aba      <navigation-case>-->
+<!--            <from-outcome>no_access</from-outcome>-->
+<!--            <to-view-id>/access.xhtml</to-view-id>-->
+<!--            <redirect/>-->
+<!--        </navigation-case>-->
+        <navigation-case>
+            <from-outcome>error</from-outcome>
+            <to-view-id>/error.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+
+    </navigation-rule>
+
+</faces-config>
