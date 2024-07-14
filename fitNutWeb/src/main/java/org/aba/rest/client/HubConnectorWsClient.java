@@ -1,18 +1,9 @@
 package org.aba.rest.client;
 
-import ch.dataconnect.CommonContextHolder;
-import ch.dataconnect.exception.DcaHttpException;
-import ch.dataconnect.kran.KranConstants;
-import ch.dataconnect.kran.KranUtils;
-import ch.dataconnect.kran.dto.StockDataDto;
-import ch.dataconnect.kran.dto.rest.HubConnectorUpdatedRowsResponse;
-import ch.dataconnect.kran.dto.rest.ResponseDataDto;
-import ch.dataconnect.kran.exception.ServiceException;
-import ch.dataconnect.kran.util.CommonConstants;
-import ch.dataconnect.kran.util.CommonUtils;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.aba.rest.dto.HubConnectorUpdatedRowsResponse;
+import org.aba.rest.dto.ResponseDataDto;
 import org.aba.rest.exeption.FitNutHttpException;
 import org.aba.web.exeption.ServiceException;
 import org.aba.web.utils.CommonContextHolder;
@@ -29,10 +20,6 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 
 /**
@@ -238,16 +225,15 @@ public class HubConnectorWsClient implements Serializable
 
         ObjectNode node = JsonNodeFactory.instance.objectNode();
 
-        String userId = (String) CommonContextHolder.getUserId();
-        node.put(KranConstants.Endpoints.HubConnector.Properties.USER_ID, userId);
-        node.put(KranConstants.Endpoints.HubConnector.Properties.GUI_LOG_ID, CommonContextHolder.getId());
-        node.put(KranConstants.Endpoints.HubConnector.Properties.PARAMS, params);
+        String userId = "userId"; //(String) CommonContextHolder.getUserId();
+        node.put(ConstantsWeb.Endpoints.HubConnector.Properties.USER_ID, userId);
+        node.put(ConstantsWeb.Endpoints.HubConnector.Properties.GUI_LOG_ID, CommonContextHolder.getId());
+        node.put(ConstantsWeb.Endpoints.HubConnector.Properties.PARAMS, params);
 
         try
         {
             ResponseDataDto HubConnectorResponse =
-                    getForEntity(restUri, ResponseDataDto.class)
-                            .getBody();
+                    getForEntity(restUri, ResponseDataDto.class).getBody();
 
             if (HubConnectorResponse != null)
             {
@@ -259,21 +245,21 @@ public class HubConnectorWsClient implements Serializable
         catch (ResourceAccessException e)
         {
             CommonUtils.logError(logger, e.getMessage());
-            throw new ServiceException("communication", KranConstants.Values.Error.HTTP, restServiceUri);
+            throw new ServiceException("communication", ConstantsWeb.Error.HTTP, restServiceUri);
         }
         catch (Exception e)
         {
             CommonUtils.logError(logger, e.getMessage());
 
-            if (e instanceof DcaHttpException dcaExeption)
+            if (e instanceof FitNutHttpException fitNutExeption)
             {
-                if (HttpStatus.UNAUTHORIZED.equals(dcaExeption.getHttpStatus()))
+                if (HttpStatus.UNAUTHORIZED.equals(fitNutExeption.getHttpStatus()))
                 {
-                    throw new ServiceException("UNAUTHORIZED", KranConstants.Values.Error.CONNECT, e);
+                    throw new ServiceException("UNAUTHORIZED", ConstantsWeb.Error.CONNECT, e);
                 }
             }
 
-            throw new ServiceException("common", KranConstants.Values.Error.UNKNOWN, e);
+            throw new ServiceException("common", ConstantsWeb.Error.UNKNOWN, e);
         }
     }
 
