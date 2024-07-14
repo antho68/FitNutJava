@@ -50,4 +50,26 @@ public interface ConstantsWeb
     {
         public final static String REPORT_IMAGE_DIRECTORY = "resources/images/";
     }
+
+    interface Endpoints
+    {
+        interface HubConnector
+        {
+            public interface Properties // POST
+            {
+                String PK = "pk";
+                String PARAMS = "params";
+                String ENTITY_NAME = "entityName";
+                String USER_ID = "userId";
+                String GUI_LOG_ID = "guiLogId";
+            }
+        }
+    }
+
+    public interface Error
+    {
+        int UNKNOWN = -1;
+        int CONNECT = 3000; // connect not possible
+        int HTTP = 3001; // http error
+    }
 }

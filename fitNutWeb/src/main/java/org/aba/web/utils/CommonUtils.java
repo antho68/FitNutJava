@@ -401,4 +401,9 @@ public class CommonUtils implements Serializable
     {
         REPORT_URL = reportUrl;
     }
+
+    public static void logTrace(Logger logger, String message)
+    {
+        logger.trace(getLogId() + ": " + message);
+    }
 }
