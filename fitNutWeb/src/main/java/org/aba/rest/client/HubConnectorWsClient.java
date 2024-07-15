@@ -214,9 +214,9 @@ public class HubConnectorWsClient implements Serializable
         return response;
     }
 
-    private ResponseDataDto getEntitiesFromMago(String params, String magoEndPointAndFilter) throws ServiceException
+    private ResponseDataDto getEntitiesFromHub(String params, String hubEndPointAndFilter) throws ServiceException
     {
-        String restUri = restServiceUri + magoEndPointAndFilter;
+        String restUri = restServiceUri + hubEndPointAndFilter;
 
         CommonUtils.logDebug(logger, HUB_API_URL_TEXT + restUri + "<.");
 
@@ -234,7 +234,6 @@ public class HubConnectorWsClient implements Serializable
         {
             ResponseDataDto HubConnectorResponse =
                     getForEntity(restUri, ResponseDataDto.class).getBody();
-
             if (HubConnectorResponse != null)
             {
                 CommonUtils.logTrace(logger, HubConnectorResponse.toString());
