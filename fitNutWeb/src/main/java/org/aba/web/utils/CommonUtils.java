@@ -37,7 +37,8 @@ public class CommonUtils implements Serializable
                 navigateTo = navigateTo + (navigateTo.contains("?") ? "&" : "?") + "faces-redirect=true";
             }
 
-            ConfigurableNavigationHandler navigationHandler = (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+            ConfigurableNavigationHandler navigationHandler =
+                    (ConfigurableNavigationHandler) FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
             navigationHandler.performNavigation(navigateTo);
         }
         catch (Exception var3)

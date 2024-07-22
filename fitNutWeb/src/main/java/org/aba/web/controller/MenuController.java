@@ -2,14 +2,14 @@ package org.aba.web.controller;
 
 import org.aba.web.SessionBean;
 import org.aba.web.manager.ApplicationManager;
-import org.primefaces.model.menu.DefaultMenuItem;
-import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.DefaultSubMenu;
-import org.primefaces.model.menu.MenuModel;
+import org.aba.web.utils.CommonUtils;
+import org.primefaces.event.MenuActionEvent;
+import org.primefaces.model.menu.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.faces.event.ActionEvent;
 import java.io.Serializable;
 
 
@@ -50,7 +50,8 @@ public class MenuController implements Serializable
 
         DefaultMenuItem rootMenu = new DefaultMenuItem();
         rootMenu.setValue("Home");
-        rootMenu.setUrl("home.xhtml");
+        rootMenu.setCommand("#{menuController.setFunction}");
+        rootMenu.setParam("url", "home.xhtml");
         model.getElements().add(rootMenu);
 
         //Nutition
@@ -62,13 +63,15 @@ public class MenuController implements Serializable
         DefaultMenuItem ingredientList = new DefaultMenuItem();
         ingredientList.setValue("Alliment");
         ingredientList.setIcon("pi pi-align-justify");
-        ingredientList.setUrl("ingredient/ingredients.xhtml");
+        ingredientList.setCommand("#{menuController.setFunction}");
+        ingredientList.setParam("url", "ingredient/ingredients.xhtml");
         nutSM.getElements().add(ingredientList);
 
         DefaultMenuItem ingredientTypeList = new DefaultMenuItem();
         ingredientTypeList.setValue("Type d'alliment");
         ingredientTypeList.setIcon("pi pi-align-justify");
-        ingredientTypeList.setUrl("ingredient/ingredientTypes.xhtml");
+        ingredientTypeList.setCommand("#{menuController.setFunction}");
+        ingredientTypeList.setParam("url", "ingredient/ingredientTypes.xhtml");
         nutSM.getElements().add(ingredientTypeList);
 
         //Exercise
@@ -80,14 +83,24 @@ public class MenuController implements Serializable
         DefaultMenuItem exerciseList = new DefaultMenuItem();
         exerciseList.setValue("Exercice");
         exerciseList.setIcon("pi pi-align-justify");
-        exerciseList.setUrl("exercise/exercises.xhtml");
+        exerciseList.setCommand("#{menuController.setFunction}");
+        exerciseList.setParam("url", "exercise/exercises.xhtml");
         exerciseSM.getElements().add(exerciseList);
 
         DefaultMenuItem exerciseTypeList = new DefaultMenuItem();
         exerciseTypeList.setValue("Type d'exercice");
         exerciseTypeList.setIcon("pi pi-align-justify");
-        exerciseTypeList.setUrl("exercise/exerciseTypes.xhtml");
+        exerciseTypeList.setCommand("#{menuController.setFunction}");
+        exerciseTypeList.setParam("url", "exercise/exerciseTypes.xhtml");
         exerciseSM.getElements().add(exerciseTypeList);
+    }
 
+    public void setFunction(ActionEvent event)
+    {
+        MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
+        String url = menuItem.getParams().get("url").get(0);
+
+        sessionBean.setLastPageCalled(url);
+        CommonUtils.navigateTo(url, true);
     }
 }

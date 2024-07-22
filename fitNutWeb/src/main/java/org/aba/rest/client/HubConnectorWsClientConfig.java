@@ -14,10 +14,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
@@ -29,6 +26,7 @@ import java.io.Serializable;
  * @author aba
  */
 @Configuration
+@PropertySource("classpath:application.properties")
 public class HubConnectorWsClientConfig implements Serializable
 {
     private static final long serialVersionUID = 1252492060408955079L;
@@ -56,7 +54,8 @@ public class HubConnectorWsClientConfig implements Serializable
 
         CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "Creating hubConnectorHttpClient client");
 
-        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(hubConnectorTimeout * 1000).setSocketTimeout(hubConnectorTimeout * 1000).build();
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(hubConnectorTimeout * 1000)
+                .setSocketTimeout(hubConnectorTimeout * 1000).build();
 
         CredentialsProvider provider = new BasicCredentialsProvider();
         UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(hubConnectorTechUser, hubConnectorTechPassword);
