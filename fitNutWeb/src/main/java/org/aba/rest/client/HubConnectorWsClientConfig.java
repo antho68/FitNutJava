@@ -60,10 +60,10 @@ public class HubConnectorWsClientConfig implements Serializable
 
         CredentialsProvider provider = new BasicCredentialsProvider();
         UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(hubConnectorTechUser, hubConnectorTechPassword);
+        //UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("myHubApp", "WX_+M-K2HgtFT4B5");
         provider.setCredentials(AuthScope.ANY, credentials);
 
         HttpClientBuilder builder = HttpClients.custom();
-
         builder.setMaxConnTotal(5).setDefaultRequestConfig(requestConfig).setDefaultCredentialsProvider(provider);
 
         CloseableHttpClient httpClient = builder.build();

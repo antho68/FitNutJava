@@ -31,7 +31,7 @@
          </property>
          <property name="locations">
             <list>
-               <value>classpath:application.properties</value>  <!-- required -->
+               <value>application.properties</value>  <!-- required -->
                <value>${configFileLocationFitNut}</value>
             </list>
          </property>

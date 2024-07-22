@@ -20,6 +20,8 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
+import java.net.URI;
+import java.net.URL;
 
 
 /**
@@ -267,6 +269,18 @@ public class HubConnectorWsClient implements Serializable
         CommonUtils.logDebug(logger, "Start HTTP Get!");
         ResponseEntity<T> response = restTemplate.getForEntity(url, responseType);
         CommonUtils.logDebug(logger, "Done HTTP get with status code " + response.getStatusCode().toString() + "!");
+
+        return response;
+    }
+
+    public <T> ResponseEntity<T> postRequest(String url, T object, Class<T> responseType) throws Exception
+    {
+        CommonUtils.logDebug(logger, "Start HTTP Post!");
+
+        URI uri = new URI(restServiceUri + url);
+        ResponseEntity<T> response = restTemplate.postForEntity(uri, object, responseType);
+        CommonUtils.logDebug(logger, "Done HTTP post with status code "
+                + response.getStatusCode().toString() + "!");
 
         return response;
     }

@@ -63,7 +63,8 @@ public class WebAppInitializerFitNutWeb implements WebApplicationInitializer
         servletContext.addListener(new ContextLoaderListener(rootContext));
         servletContext.addListener(new RequestContextListener());
 
-        servletContext.addFilter("log4jServletFilter", Log4jServletFilter.class).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+        servletContext.addFilter("log4jServletFilter", Log4jServletFilter.class)
+                .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
         servletContext.addListener(new ContextListener());
 
         CommonUtils.initBaseUrl(CommonUtils.getBaseUrl(
