@@ -37,6 +37,7 @@ public class MenuController implements Serializable
         {
             buildMenu();
         }
+
         return model;
     }
 
@@ -51,7 +52,7 @@ public class MenuController implements Serializable
         DefaultMenuItem rootMenu = new DefaultMenuItem();
         rootMenu.setValue("Home");
         rootMenu.setCommand("#{menuController.setFunction}");
-        rootMenu.setParam("url", "home.xhtml");
+        rootMenu.setParam("url", "/home.xhtml");
         model.getElements().add(rootMenu);
 
         //Nutition
@@ -64,14 +65,14 @@ public class MenuController implements Serializable
         ingredientList.setValue("Alliment");
         ingredientList.setIcon("pi pi-align-justify");
         ingredientList.setCommand("#{menuController.setFunction}");
-        ingredientList.setParam("url", "ingredient/ingredients.xhtml");
+        ingredientList.setParam("url", "/ingredient/ingredients.xhtml");
         nutSM.getElements().add(ingredientList);
 
         DefaultMenuItem ingredientTypeList = new DefaultMenuItem();
         ingredientTypeList.setValue("Type d'alliment");
         ingredientTypeList.setIcon("pi pi-align-justify");
         ingredientTypeList.setCommand("#{menuController.setFunction}");
-        ingredientTypeList.setParam("url", "ingredient/ingredientTypes.xhtml");
+        ingredientTypeList.setParam("url", "/ingredient/ingredientTypes.xhtml");
         nutSM.getElements().add(ingredientTypeList);
 
         //Exercise
@@ -84,14 +85,14 @@ public class MenuController implements Serializable
         exerciseList.setValue("Exercice");
         exerciseList.setIcon("pi pi-align-justify");
         exerciseList.setCommand("#{menuController.setFunction}");
-        exerciseList.setParam("url", "exercise/exercises.xhtml");
+        exerciseList.setParam("url", "/exercise/exercises.xhtml");
         exerciseSM.getElements().add(exerciseList);
 
         DefaultMenuItem exerciseTypeList = new DefaultMenuItem();
         exerciseTypeList.setValue("Type d'exercice");
         exerciseTypeList.setIcon("pi pi-align-justify");
         exerciseTypeList.setCommand("#{menuController.setFunction}");
-        exerciseTypeList.setParam("url", "exercise/exerciseTypes.xhtml");
+        exerciseTypeList.setParam("url", "/exercise/exerciseTypes.xhtml");
         exerciseSM.getElements().add(exerciseTypeList);
     }
 

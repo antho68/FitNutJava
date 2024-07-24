@@ -193,7 +193,8 @@ public class SessionBean implements Serializable
 
     public void setLastPageCalled(String lastPageCalled)
     {
-        CommonUtils.logInfo(ConstantsWeb.DEBUG_LOG, "setLastPageCalled, go to: " + getLastPageCalled());
+//        CommonUtils.logInfo(ConstantsWeb.DEBUG_LOG, "setLastPageCalled was: "
+//                + getLastPageCalled() + " Go to:" + lastPageCalled);
         this.lastPageCalled = lastPageCalled;
     }
 
