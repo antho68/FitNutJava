@@ -1,4 +1,14 @@
-
+function inactiveDefaultButton() {
+    $('form').off('keypress.disableAutoSubmitOnEnter').on(
+        'keypress.disableAutoSubmitOnEnter',
+        function (event) {
+            if (event.which === $.ui.keyCode.ENTER
+                && $(event.target).is(
+                    ':input:not(textarea,:button,:submit,:reset)')) {
+                event.preventDefault();
+            }
+        });
+}
 
 function changeRightPanelDisplayState() {
     var rightPanel = document.getElementsByClassName("layout-rightpanel");

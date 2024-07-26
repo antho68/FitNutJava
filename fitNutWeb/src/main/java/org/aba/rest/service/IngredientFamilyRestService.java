@@ -2,9 +2,9 @@ package org.aba.rest.service;
 
 import org.aba.data.domain.IngredientFamily;
 
-import java.util.Collection;
+import java.util.LinkedList;
 
 public interface IngredientFamilyRestService
 {
-    public Collection<IngredientFamily> getIngredientFamiliesByTokenAndDate(String token, String dateFormatted);
+    public LinkedList<IngredientFamily> getIngredientFamiliesByTokenAndDate(String token, String dateFormatted);
 }

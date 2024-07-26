@@ -59,7 +59,6 @@ public abstract class AbstractCrudDialog<DO extends AbstractDomain, CF extends A
         this.clearDialog();
     }
 
-
     public DO getSelectedDto()
     {
         return (DO) this.selectedDo;
@@ -233,6 +232,25 @@ public abstract class AbstractCrudDialog<DO extends AbstractDomain, CF extends A
         {
             return (ParameterizedType) type;
         }
+    }
+
+    public String getDialogTitle()
+    {
+        String title = "";
+
+        if (getMode() != null)
+        {
+            switch (getMode())
+            {
+                case EDIT -> title = "Modifier";
+                case ADD -> title = "Nouveau";
+                case COPY -> title = "Copier";
+                case DELETE -> title = "Supprimer";
+                case SHOW -> title = "Afficher";
+            }
+        }
+
+        return title;
     }
 }
 

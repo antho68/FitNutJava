@@ -102,4 +102,29 @@ public abstract class AbstractBaseController<SF extends AbstractSearchForm> impl
             context.ajax().update(clientIds);
         }
     }
+
+    public static void showErrorDialog()
+    {
+        showDialog("errorDialog");
+    }
+
+    public static void showDialog(String dialogName)
+    {
+        executeOnRequestContext("PF('" + dialogName + "').show();");
+    }
+
+    public static void hideDialog(String dialogName)
+    {
+        executeOnRequestContext("PF('" + dialogName + "').hide(); " +
+                "if(typeof setFocusToFilter == 'function') { setFocusToFilter(); };");
+    }
+
+    public static synchronized void executeOnRequestContext(String executeCommand)
+    {
+        PrimeFaces context = PrimeFaces.current();
+        if (context != null)
+        {
+            context.executeScript(executeCommand);
+        }
+    }
 }

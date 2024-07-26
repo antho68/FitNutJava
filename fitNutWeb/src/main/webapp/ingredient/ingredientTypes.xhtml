@@ -5,6 +5,8 @@
     <f:metadata>
         <ui:param name="controller" value="#{ingredientTypeController}"/>
         <ui:param name="searchForm" value="#{ingredientTypeSearchForm}"/>
+        <ui:param name="dialog" value="#{ingredientFamilyDialog}"/>
+        <ui:param name="form" value="#{ingredientFamilyForm}"/>
     </f:metadata>
 
     <ui:define name="content">
@@ -83,8 +85,33 @@
 
                                 </p:column>
                             </p:dataTable>
-
                         </p:panel>
+                    </h:form>
+
+                    <h:form id="crudDialogForm" prependId="false">
+                        <p:blockUI id="crudDialogBui" block="crudDialog" widgetVar="crudDialogBui">
+                            <h:graphicImage library="images" name="ajax-loader1.gif"
+                                            style="margin-right: 12px; vertical-align: middle;"/>
+                            <h:outputText value="Veuillez patienté ..." style="white-space: nowrap;"/>
+                        </p:blockUI>
+
+                        <p:dialog id="crudDialog" widgetVar="crudDialog" modal="true" dynamic="true" closable="true"
+                                  onShow="inactiveDefaultButton();" header="#{dialog.dialogTitle}"
+                                  showEffect="clip" hideEffect="clip" closeOnEscape="true" appendTo="@(body)">
+
+                            <h:form id="crudFormModal" prependId="false">
+                                <h:panelGroup id="crudFormPanel" layout="block">
+
+                                    <br/>
+                                    <p:commandButton id="closeButton" value="Fermer" title="Fermer" alt="Fermer"
+                                                     oncomplete="hideDialog('crudDialog');"
+                                                     immediate="true" styleClass="greyButton" icon="pi pi-close Fs14"/>
+                                    <br/>
+                                    <br/>
+                                </h:panelGroup>
+                            </h:form>
+                        </p:dialog>
+
                     </h:form>
                 </div>
             </div>

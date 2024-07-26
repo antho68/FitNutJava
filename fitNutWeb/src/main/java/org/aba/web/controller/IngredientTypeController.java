@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
-import java.util.Collection;
 
 @Component("ingredientTypeController")
 @Scope("view")
@@ -23,7 +22,6 @@ public class IngredientTypeController extends AbstractSearchEditDialogController
     private IngredientFamilyRestService ingredientFamilyRestService;
     @Autowired
     private SessionBean sessionBean;
-    private IngredientFamily selectedDo;
 
     public IngredientTypeController()
     {
@@ -39,44 +37,10 @@ public class IngredientTypeController extends AbstractSearchEditDialogController
     @Override
     public void search()
     {
-        setDtos(ingredientFamilyRestService.getIngredientFamiliesByTokenAndDate(
+        setDos(ingredientFamilyRestService.getIngredientFamiliesByTokenAndDate(
                 sessionBean.getActualToken(), null));
+
     }
 
-    public Collection<IngredientFamily> getDtos()
-    {
-        return dtos;
-    }
 
-    public void setDtos(Collection<IngredientFamily> dtos)
-    {
-        this.dtos = dtos;
-    }
-
-    public Collection<IngredientFamily> getFilteredDtos()
-    {
-        return filteredDtos;
-    }
-
-    public void setFilteredDtos(Collection<IngredientFamily> filteredDtos)
-    {
-        this.filteredDtos = filteredDtos;
-    }
-
-    public IngredientFamily getSelectedDto()
-    {
-        return selectedDto;
-    }
-
-    public void setSelectedDto(IngredientFamily selectedDto)
-    {
-        this.selectedDto = selectedDto;
-    }
-
-    public void setEditSelectedDto(IngredientFamily selectedDto)
-    {
-        this.dialog.setMode(CrudMode.EDIT);
-        this.selectedDto = selectedDto;
-        this.fillDialog();
-    }
 }

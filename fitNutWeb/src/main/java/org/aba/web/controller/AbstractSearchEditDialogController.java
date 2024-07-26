@@ -1,6 +1,7 @@
 package org.aba.web.controller;
 
 import org.aba.data.domain.AbstractDomain;
+import org.aba.data.domain.IngredientFamily;
 import org.aba.web.SessionBean;
 import org.aba.web.controller.dialog.AbstractCrudDialog;
 import org.aba.web.controller.form.AbstractCrudForm;
@@ -10,7 +11,6 @@ import org.aba.web.utils.CommonUtils;
 import org.aba.web.utils.ConstantsWeb;
 import org.aba.web.utils.CrudMode;
 import org.aba.web.utils.MessageUtils;
-import org.primefaces.PrimeFaces;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.datatable.DataTableState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -152,7 +151,7 @@ public abstract class AbstractSearchEditDialogController<DIA extends AbstractCru
             catch (ServiceException e)
             {
                 CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, e.getMessage());
-                MessageUtils.addErrorMessageText(e.createGuiMessage());
+                MessageUtils.addErrorMessageText(e.getMessage());
             }
         }
 
@@ -165,51 +164,6 @@ public abstract class AbstractSearchEditDialogController<DIA extends AbstractCru
     protected void doAfterSave()
     {
 
-    }
-
-    protected void initWidth()
-    {
-        // Search for existing UserTableFilter
-        UserTableColumnWidthFilter filter = new UserTableColumnWidthFilter();
-        filter.setUser((User) sessionBean.getUser());
-        filter.setObjectId(menuId);
-
-        userTableColumnWidth = userTableColumnWidthService.getUniqueUserTableColumnWidth(filter);
-
-        if (userTableColumnWidth != null)
-        {
-            Map<String, Object> columnWidthMap = deserializeXmlToParameterMap(userTableColumnWidth.getDataXml());
-            setColumnWidthMap(columnWidthMap);
-        }
-    }
-
-    public void saveColumnWidth()
-    {
-        if (userTableColumnWidth == null)
-        {
-            // Search for existing UserTableFilter
-            UserTableColumnWidthFilter filter = new UserTableColumnWidthFilter();
-            filter.setUser((User) sessionBean.getUser());
-            filter.setObjectId(menuId);
-
-            userTableColumnWidth = userTableColumnWidthService.getUniqueUserTableColumnWidth(filter);
-        }
-
-        if (userTableColumnWidth == null)
-        {
-            userTableColumnWidth = new UserTableColumnWidth();
-            userTableColumnWidth.setObjectId(menuId);
-            userTableColumnWidth.setUser((User) sessionBean.getUser());
-        }
-
-        // Get map of all setted filters
-        Map<String, Object> filterMap = getColumnWidthMap();
-        if (!serializeParameterMapToXml(filterMap).equals(userTableColumnWidth.getDataXml()))
-        {
-            userTableColumnWidth.setDataXml(serializeParameterMapToXml(filterMap));
-            // Save/Update object
-            userTableColumnWidthService.saveUserTableColumnWidth(userTableColumnWidth, menuId);
-        }
     }
 
     protected void clearDialog(boolean clearMessages)
@@ -226,10 +180,6 @@ public abstract class AbstractSearchEditDialogController<DIA extends AbstractCru
         this.clearDialog(true);
         this.dialog.fillDialog(this.selectedDo);
     }
-
-    public abstract Map<String, Object> getColumnWidthMap();
-
-    public abstract void setColumnWidthMap(Map<String, Object> filterMap);
 
     public String getTableComponentRef()
     {
@@ -251,20 +201,6 @@ public abstract class AbstractSearchEditDialogController<DIA extends AbstractCru
         }
     }
 
-    public static void hideDialog(String dialogName)
-    {
-        executeOnRequestContext("PF('" + dialogName + "').hide(); if(typeof setFocusToFilter == 'function') { setFocusToFilter(); };");
-    }
-
-    public static synchronized void executeOnRequestContext(String executeCommand)
-    {
-        PrimeFaces context = PrimeFaces.current();
-        if (context != null)
-        {
-            context.executeScript(executeCommand);
-        }
-    }
-
     public LinkedList<DO> getDos()
     {
         return dos;
@@ -283,5 +219,22 @@ public abstract class AbstractSearchEditDialogController<DIA extends AbstractCru
     public void setFilteredDos(List<DO> filteredDos)
     {
         this.filteredDos = filteredDos;
+    }
+
+    public void setEditSelectedDto(DO selectedDo)
+    {
+        this.dialog.setMode(CrudMode.EDIT);
+        this.selectedDo = selectedDo;
+        this.fillDialog();
+    }
+
+    public DO getSelectedDo()
+    {
+        return selectedDo;
+    }
+
+    public void setSelectedDo(DO selectedDo)
+    {
+        this.selectedDo = selectedDo;
     }
 }

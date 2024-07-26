@@ -45,4 +45,48 @@ public class MessageUtils
             }
         }
     }
+
+    public static boolean hasErrorMessage()
+    {
+        return hasMessageWithSeverity(getFacesContext(), FacesMessage.SEVERITY_ERROR);
+    }
+
+    private static boolean hasMessageWithSeverity(FacesContext facesContext, FacesMessage.Severity severity)
+    {
+        Iterator<FacesMessage> messages = facesContext.getMessages();
+
+        FacesMessage message;
+        do
+        {
+            if (!messages.hasNext())
+            {
+                return false;
+            }
+
+            message = messages.next();
+        } while (!severity.equals(message.getSeverity()));
+
+        return true;
+    }
+
+    public static void addErrorMessageText(String text)
+    {
+        FacesContext facesContext = getFacesContext();
+        facesContext.addMessage((String) null, createErrorMessageText(text, (String) null));
+    }
+
+    private static FacesMessage createErrorMessageText(String textSummary, String textDetail)
+    {
+        return createMessage(FacesMessage.SEVERITY_ERROR, textSummary, textDetail);
+    }
+
+    public static FacesMessage createMessage(FacesMessage.Severity severity, String messageSummary
+            , String messageDetail)
+    {
+        FacesMessage facesMessage = new FacesMessage();
+        facesMessage.setDetail(messageDetail);
+        facesMessage.setSummary(messageSummary);
+        facesMessage.setSeverity(severity);
+        return facesMessage;
+    }
 }
