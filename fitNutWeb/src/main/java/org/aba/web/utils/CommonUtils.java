@@ -407,4 +407,9 @@ public class CommonUtils implements Serializable
     {
         logger.trace(getLogId() + ": " + message);
     }
+
+    public static boolean isCollectionEmpty(Collection<?> collection)
+    {
+        return collection == null || collection.isEmpty();
+    }
 }

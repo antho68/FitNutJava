@@ -1,9 +1,14 @@
 package org.aba.rest.service;
 
 import org.aba.data.domain.User;
+import org.aba.rest.dto.UserResponseDto;
 import org.aba.rest.client.HubConnectorWsClient;
+import org.aba.rest.exeption.FitNutHttpException;
+import org.aba.web.utils.CommonUtils;
+import org.aba.web.utils.ConstantsWeb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -23,15 +28,18 @@ public class LoginRestServiceImpl implements LoginRestService
     {
         User userFinded = null;
 
-        try
+        String composedURL = URL;
+        composedURL += "?username=" + username + "";
+        composedURL += "&password=" + password + "";
+        composedURL += "&app=FitNut";
+
+        UserResponseDto dataToSend = null;
+        ResponseEntity<UserResponseDto> response = hubConnectorWsClient.postRequest(composedURL, dataToSend, UserResponseDto.class);
+        if (response != null) //204
         {
-            ResponseEntity<User> response = hubConnectorWsClient.postRequest(URL, userFinded, User.class);
-        }
-        catch (Exception e)
-        {
-            System.out.println(e);
+            userFinded = response.getBody().getData();
         }
 
-        return null;
+        return userFinded;
     }
 }

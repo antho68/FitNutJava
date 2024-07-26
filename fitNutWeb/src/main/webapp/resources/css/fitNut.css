@@ -236,3 +236,29 @@
 {
     border: none;
 }
+
+body .ui-panel-titlebar
+{
+    padding: 0.7rem !important;
+}
+
+body .ui-panel-content
+{
+    padding: 0.7rem !important;
+}
+
+table.ui-panelgrid > tbody > tr > td.ui-panelgrid-cell
+{
+    padding: 0.5rem !important;
+}
+
+div .ui-datatable-scrollable-header-box > table > thead > tr > th
+{
+    padding: 0.5rem !important;
+    vertical-align: top;
+}
+
+div .ui-datatable-scrollable-body > table > tbody > tr > td
+{
+    padding: 0.5rem !important;
+}

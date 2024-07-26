@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info">
     <Properties>
-        <Property name="log-path">C:\temp\fitNutMaster</Property>
+        <Property name="log-path">C:\logs\fitNutMaster</Property>
     </Properties>
 
     <Appenders>

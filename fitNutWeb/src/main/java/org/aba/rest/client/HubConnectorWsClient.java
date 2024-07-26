@@ -10,8 +10,6 @@ import org.aba.web.utils.CommonContextHolder;
 import org.aba.web.utils.CommonUtils;
 import org.aba.web.utils.ConstantsWeb;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -21,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
 import java.net.URI;
-import java.net.URL;
 
 
 /**
@@ -32,15 +29,13 @@ import java.net.URL;
 @Component
 public class HubConnectorWsClient implements Serializable
 {
+    private static final long serialVersionUID = 8527612060790164162L;
     private static final String HUB_API_URL_TEXT = "Use hubConnectorApiUrl >";
 
     public enum MagicLinkPostEntities
     {
         INGREDIENT;
     }
-
-    private static final long serialVersionUID = 8527612060790164162L;
-    private static final Logger logger = LoggerFactory.getLogger(HubConnectorWsClient.class);
 
     @Value("${hubConnector.rest.uri:#{null}}")
     private String restServiceUri;
@@ -84,7 +79,7 @@ public class HubConnectorWsClient implements Serializable
     private HubConnectorUpdatedRowsResponse postModifiedEntityForUpdatedRowsResponse(Long pk, String entity
             , String hubConnectorApiUrl) throws ServiceException
     {
-        CommonUtils.logDebug(logger, HUB_API_URL_TEXT + hubConnectorApiUrl + "<.");
+        CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, HUB_API_URL_TEXT + hubConnectorApiUrl + "<.");
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -105,19 +100,19 @@ public class HubConnectorWsClient implements Serializable
                     , requestEntity, HubConnectorUpdatedRowsResponse.class).getBody();
             if (HubConnectorResponse != null)
             {
-                CommonUtils.logTrace(logger, HubConnectorResponse.toString());
+                CommonUtils.logTrace(ConstantsWeb.APPL_LOG, HubConnectorResponse.toString());
             }
 
             return HubConnectorResponse;
         }
         catch (ResourceAccessException e)
         {
-            CommonUtils.logError(logger, e.getMessage());
+            CommonUtils.logError(ConstantsWeb.ERROR_LOG, e.getMessage());
             throw new ServiceException("communication", ConstantsWeb.Error.HTTP, restServiceUri);
         }
         catch (Exception e)
         {
-            CommonUtils.logError(logger, e.getMessage());
+            CommonUtils.logError(ConstantsWeb.ERROR_LOG, e.getMessage());
 
             if (e instanceof FitNutHttpException dcaExeption)
             {
@@ -134,7 +129,7 @@ public class HubConnectorWsClient implements Serializable
     private HubConnectorUpdatedRowsResponse postModifiedEntityForUpdatedRowsResponse(String params
             , String entity, String hubConnectorApiUrl) throws ServiceException
     {
-        CommonUtils.logDebug(logger, HUB_API_URL_TEXT + hubConnectorApiUrl + "<.");
+        CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, HUB_API_URL_TEXT + hubConnectorApiUrl + "<.");
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -155,19 +150,19 @@ public class HubConnectorWsClient implements Serializable
                     , requestEntity, HubConnectorUpdatedRowsResponse.class).getBody();
             if (HubConnectorResponse != null)
             {
-                CommonUtils.logTrace(logger, HubConnectorResponse.toString());
+                CommonUtils.logTrace(ConstantsWeb.APPL_LOG, HubConnectorResponse.toString());
             }
 
             return HubConnectorResponse;
         }
         catch (ResourceAccessException e)
         {
-            CommonUtils.logError(logger, e.getMessage());
+            CommonUtils.logError(ConstantsWeb.ERROR_LOG, e.getMessage());
             throw new ServiceException("communication", ConstantsWeb.Error.HTTP, restServiceUri);
         }
         catch (Exception e)
         {
-            CommonUtils.logError(logger, e.getMessage());
+            CommonUtils.logError(ConstantsWeb.ERROR_LOG, e.getMessage());
 
             if (e instanceof FitNutHttpException fitNutHttpExeption)
             {
@@ -209,9 +204,9 @@ public class HubConnectorWsClient implements Serializable
      */
     protected <T> ResponseEntity<T> postForEntity(String url, HttpEntity<?> requestEntity, Class<T> responseType) throws Exception
     {
-        CommonUtils.logDebug(logger, "Start HTTP Post!");
+        CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "Start HTTP Post!");
         ResponseEntity<T> response = restTemplate.postForEntity(url, requestEntity, responseType);
-        CommonUtils.logDebug(logger, "Done HTTP post with status code " + response.getStatusCode().toString() + "!");
+        CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "Done HTTP post with status code " + response.getStatusCode().toString() + "!");
 
         return response;
     }
@@ -219,8 +214,7 @@ public class HubConnectorWsClient implements Serializable
     private ResponseDataDto getEntitiesFromHub(String params, String hubEndPointAndFilter) throws ServiceException
     {
         String restUri = restServiceUri + hubEndPointAndFilter;
-
-        CommonUtils.logDebug(logger, HUB_API_URL_TEXT + restUri + "<.");
+        CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, HUB_API_URL_TEXT + restUri + "<.");
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -238,19 +232,19 @@ public class HubConnectorWsClient implements Serializable
                     getForEntity(restUri, ResponseDataDto.class).getBody();
             if (HubConnectorResponse != null)
             {
-                CommonUtils.logTrace(logger, HubConnectorResponse.toString());
+                CommonUtils.logTrace(ConstantsWeb.APPL_LOG, HubConnectorResponse.toString());
             }
 
             return HubConnectorResponse;
         }
         catch (ResourceAccessException e)
         {
-            CommonUtils.logError(logger, e.getMessage());
+            CommonUtils.logError(ConstantsWeb.ERROR_LOG, e.getMessage());
             throw new ServiceException("communication", ConstantsWeb.Error.HTTP, restServiceUri);
         }
         catch (Exception e)
         {
-            CommonUtils.logError(logger, e.getMessage());
+            CommonUtils.logError(ConstantsWeb.ERROR_LOG, e.getMessage());
 
             if (e instanceof FitNutHttpException fitNutExeption)
             {
@@ -266,21 +260,93 @@ public class HubConnectorWsClient implements Serializable
 
     protected <T> ResponseEntity<T> getForEntity(String url, Class<T> responseType) throws Exception
     {
-        CommonUtils.logDebug(logger, "Start HTTP Get!");
+        CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "Start HTTP Get!");
         ResponseEntity<T> response = restTemplate.getForEntity(url, responseType);
-        CommonUtils.logDebug(logger, "Done HTTP get with status code " + response.getStatusCode().toString() + "!");
+        CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "Done HTTP get with status code " + response.getStatusCode().toString() + "!");
 
         return response;
     }
 
-    public <T> ResponseEntity<T> postRequest(String url, T object, Class<T> responseType) throws Exception
+    public <T> ResponseEntity<T> postRequest(String url, T object, Class<T> responseType)
     {
-        CommonUtils.logDebug(logger, "Start HTTP Post!");
+        ResponseEntity<T> response = null;
+        CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "Start HTTP Post!");
 
-        URI uri = new URI(restServiceUri + url);
-        ResponseEntity<T> response = restTemplate.postForEntity(uri, object, responseType);
-        CommonUtils.logDebug(logger, "Done HTTP post with status code "
-                + response.getStatusCode().toString() + "!");
+        try
+        {
+            URI uri = new URI(restServiceUri + "/" + url);
+            CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "For:" + uri);
+
+            response = restTemplate.postForEntity(uri, object, responseType);
+            if (HttpStatus.NO_CONTENT == response.getStatusCode()) //204
+            {
+                CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "204 - NO_CONTENT  -> " + response.getBody());
+            }
+
+            CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "Done HTTP post with status code "
+                    + response.getStatusCode().toString() + "!");
+        }
+        catch (FitNutHttpException e)
+        {
+            if (HttpStatus.NOT_FOUND == e.getHttpStatus()) //404
+            {
+                CommonUtils.logError(ConstantsWeb.ERROR_LOG, "404 - NOT_FOUND  -> " + e.getMessage());
+            }
+            else if (HttpStatus.BAD_REQUEST == e.getHttpStatus()) //400
+            {
+                CommonUtils.logError(ConstantsWeb.ERROR_LOG, "400 - BAD_REQUEST  -> " + e.getMessage());
+            }
+            else
+            {
+                CommonUtils.logError(ConstantsWeb.ERROR_LOG, e.getMessage());
+            }
+        }
+        catch (Exception e)
+        {
+            CommonUtils.logError(ConstantsWeb.ERROR_LOG, e.getMessage());
+        }
+
+        return response;
+    }
+
+    public <T> ResponseEntity<T> getRequest(String url, Class<T> responseType)
+    {
+        ResponseEntity<T> response = null;
+        CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "Start HTTP Post!");
+
+        try
+        {
+            URI uri = new URI(restServiceUri + "/" + url);
+            CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "For:" + uri);
+
+            response = restTemplate.getForEntity(uri, responseType);
+            if (HttpStatus.NO_CONTENT == response.getStatusCode()) //204
+            {
+                CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "204 - NO_CONTENT  -> " + response.getBody());
+            }
+
+            CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "Done HTTP post with status code "
+                    + response.getStatusCode().toString() + "!");
+        }
+        catch (FitNutHttpException e)
+        {
+            if (HttpStatus.NOT_FOUND == e.getHttpStatus()) //404
+            {
+                CommonUtils.logError(ConstantsWeb.ERROR_LOG, "404 - NOT_FOUND  -> " + e.getMessage());
+            }
+            else if (HttpStatus.BAD_REQUEST == e.getHttpStatus()) //400
+            {
+                CommonUtils.logError(ConstantsWeb.ERROR_LOG, "400 - BAD_REQUEST  -> " + e.getMessage());
+            }
+            else
+            {
+                CommonUtils.logError(ConstantsWeb.ERROR_LOG, e.getMessage());
+            }
+        }
+        catch (Exception e)
+        {
+            CommonUtils.logError(ConstantsWeb.ERROR_LOG, e.getMessage());
+        }
 
         return response;
     }

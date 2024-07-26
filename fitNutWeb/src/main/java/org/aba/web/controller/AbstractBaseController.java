@@ -2,11 +2,13 @@ package org.aba.web.controller;
 
 import org.aba.web.controller.searchForm.AbstractSearchForm;
 import org.aba.web.utils.CommonUtils;
+import org.primefaces.PrimeFaces;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
 
 @Component
 public abstract class AbstractBaseController<SF extends AbstractSearchForm> implements Serializable
@@ -73,4 +75,31 @@ public abstract class AbstractBaseController<SF extends AbstractSearchForm> impl
         }
     }
 
+    public SF getSearchForm()
+    {
+        return searchForm;
+    }
+
+    public void setSearchForm(SF searchForm)
+    {
+        this.searchForm = searchForm;
+    }
+
+    public static synchronized void updateOnRequestContext(String clientId)
+    {
+        PrimeFaces context = PrimeFaces.current();
+        if (context != null)
+        {
+            context.ajax().update(clientId);
+        }
+    }
+
+    public static synchronized void updateOnRequestContext(Collection<String> clientIds)
+    {
+        PrimeFaces context = PrimeFaces.current();
+        if (context != null)
+        {
+            context.ajax().update(clientIds);
+        }
+    }
 }

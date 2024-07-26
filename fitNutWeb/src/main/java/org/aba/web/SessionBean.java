@@ -1,5 +1,7 @@
 package org.aba.web;
 
+import org.aba.data.domain.User;
+import org.aba.rest.service.LoginRestService;
 import org.aba.web.manager.ApplicationManager;
 import org.aba.web.utils.CommonUtils;
 import org.aba.web.utils.ConstantsWeb;
@@ -12,9 +14,10 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -30,20 +33,19 @@ public class SessionBean implements Serializable
 
     @Autowired
     private ApplicationManager applicationManager;
+    @Autowired
+    private LoginRestService loginRestService;
 
     private String logoName;
-    private String autoLogin = null;
-    private boolean skipAutoLogin = false;
-    private boolean skipChangePassword = false;
-    private Map<String, Double> datatableScrollheightByController = new HashMap<>();
-    private Double lastScrollHeight = null;
-    private Date lastAccessedTs;
-    private boolean shouldInitSupplier = false;
     private String lastPageCalled = "";
     private String sessionId;
     private boolean loggedIn;
     private Long autoLogoutTimeout;
     private String currentFunctionInfos;
+    private User user;
+    private String actualToken;
+    private Date lastTokenSync = new Date();
+    private Date lastAccessedTs;
 
     @PostConstruct
     public void init()
@@ -62,36 +64,6 @@ public class SessionBean implements Serializable
         return "SessionBean [sessionId=" + getSessionId() + "]";
     }
 
-    public String getAutoLogin()
-    {
-        return autoLogin;
-    }
-
-    public void setAutoLogin(String autoLogin)
-    {
-        this.autoLogin = autoLogin;
-    }
-
-    public boolean isSkipAutoLogin()
-    {
-        return skipAutoLogin;
-    }
-
-    public void setSkipAutoLogin(boolean skipAutoLogin)
-    {
-        this.skipAutoLogin = skipAutoLogin;
-    }
-
-    public boolean isSkipChangePassword()
-    {
-        return skipChangePassword;
-    }
-
-    public void setSkipChangePassword(boolean skipChangePassword)
-    {
-        this.skipChangePassword = skipChangePassword;
-    }
-
     public void logout()
     {
         CommonUtils.logDebug(ConstantsWeb.DEBUG_LOG, "clear login Cookie");
@@ -107,22 +79,6 @@ public class SessionBean implements Serializable
         CommonUtils.navigateTo(ConstantsWeb.Navigation.Common.MY_DATA, true);
     }
 
-    public void setDatatableScrollheightByController(String controllerId, Double scrollHeight)
-    {
-        this.datatableScrollheightByController.put(controllerId, scrollHeight);
-        this.lastScrollHeight = scrollHeight;
-    }
-
-    public Double getDatatableScrollheightByController(String controllerId)
-    {
-        Double result = this.datatableScrollheightByController.get(controllerId);
-        if (result == null && lastScrollHeight != null)
-        {
-            return lastScrollHeight;
-        }
-        return result;
-    }
-
     public String getCookieName()
     {
         return ConstantsWeb.AUTH_COOKIE + applicationManager.getSystemStage();
@@ -136,16 +92,6 @@ public class SessionBean implements Serializable
         }
 
         this.autoLogoutTimeout = 60000L * (long) autoLogoutTimeoutParam;
-    }
-
-    public boolean isShouldInitSupplier()
-    {
-        return shouldInitSupplier;
-    }
-
-    public void setShouldInitSupplier(boolean shouldInitSupplier)
-    {
-        this.shouldInitSupplier = shouldInitSupplier;
     }
 
     public void keepAlive()
@@ -231,5 +177,44 @@ public class SessionBean implements Serializable
     public void setCurrentFunctionInfos(String currentFunctionInfos)
     {
         this.currentFunctionInfos = currentFunctionInfos;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
+    public String getActualToken()
+    {
+        boolean shouldCheckToken = false;
+        if (actualToken == null)
+        {
+            shouldCheckToken = true;
+        }
+
+        long difference = lastTokenSync.getTime() - new Date().getTime();
+        if (difference > (30 * 60000) )
+        {
+            lastTokenSync = new Date();
+            shouldCheckToken = true;
+        }
+
+        if (shouldCheckToken)
+        {
+            User user = loginRestService.login("Aba", "2fc051754");
+            if (StringUtils.isNotEmpty(user.getRefreshToken()))
+            {
+                user.setAccessToken(user.getRefreshToken());
+            }
+
+            actualToken = user.getAccessToken();
+        }
+
+        return actualToken;
     }
 }

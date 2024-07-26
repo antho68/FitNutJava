@@ -12,26 +12,26 @@
             <div class="ui-g-12">
                 <div class="card">
                     <h1>Type d'ingredient</h1>
-                    <h:form prependId="false">
+                    <h:form id="form" prependId="false">
                         <p:panel id="filterPanel" header="Filtre" toggleable="true" closable="false" toggleSpeed="500"
                                  closeSpeed="500" widgetVar="filterPanel">
 
-                            <p:panelGrid columns="6" layout="grid">
+<!--                            <p:panelGrid columns="6" layout="grid">-->
 
-                                <p:outputLabel value="Pk:"/>
-                                <p:inputText value="#{searchForm.pk}">
-                                    <p:ajax update="dataPanel" event="blur" listener="#{controller.search}"/>
-                                </p:inputText>
+<!--                                <p:outputLabel value="Pk:"/>-->
+<!--                                <p:inputText value="#{searchForm.pk}">-->
+<!--                                    <p:ajax update="dataPanel" event="blur" listener="#{controller.search}"/>-->
+<!--                                </p:inputText>-->
 
-                                <p:outputLabel value="Nom:"/>
-                                <p:inputText value="#{searchForm.name}">
-                                    <p:ajax update="dataPanel" event="blur" listener="#{controller.search}"/>
-                                </p:inputText>
+<!--                                <p:outputLabel value="Nom:"/>-->
+<!--                                <p:inputText value="#{searchForm.name}">-->
+<!--                                    <p:ajax update="dataPanel" event="blur" listener="#{controller.search}"/>-->
+<!--                                </p:inputText>-->
 
-                                <p:outputLabel value=""/>
-                                <p:outputLabel value=""/>
+<!--                                <p:outputLabel value=""/>-->
+<!--                                <p:outputLabel value=""/>-->
 
-                            </p:panelGrid>
+<!--                            </p:panelGrid>-->
 
                             <p:panelGrid columns="0" layout="tabular" style="width: 100%"
                                          styleClass="panelGridWithNoBorder">
@@ -40,17 +40,49 @@
 
                                     <p:column style="text-align: right">
                                         <p:commandButton value="Vider les filtres" update="filterPanel"
-                                                         actionListener="#{controller.clearFilter}"/>
+                                                         actionListener="#{controller.clearFilter}"
+                                                         onclick="PF('ingredientFamilyDataTable').clearFilters();"/>
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>
-
                         </p:panel>
 
-                        <p:commandButton value="Test login" update="filterPanel"
-                                         actionListener="#{controller.testLogin}"/>
+                        <p:panel closable="false" toggleable="false" id="dataPanel" style="padding-top: 10px;">
+                            <p:dataTable var="dto" value="#{controller.dos}" widgetVar="ingredientFamilyDataTable"
+                                         emptyMessage="Pas de données présentes" styleClass="col100" rows="50"
+                                         filteredValue="#{controller.filteredDos}" paginator="true"
+                                         lazy="false" sortMode="multiple" rowIndexVar="tableIndex" multiViewState="true"
+                                         paginatorTemplate="{CurrentPageReport} {PrevContent} {PageLinks} {NextContent} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="15,50,100,250" paginatorPosition="top" scrollable="true"
+                                         selectionMode="single" selection="#{controller.selectedDo}" rowKey="#{dto.pk}"
+                                         tableStyle="table-layout:fixed;">
 
-                        <p:panel closable="false" toggleable="false" id="dataPanel">
+                                <p:column headerText="Pk" sortBy="#{dto.pk}" filterBy="#{dto.pk}"
+                                          filterMatchMode="contains" width="50">
+                                    <h:outputText value="#{dto.pk}" />
+                                </p:column>
+
+                                <p:column headerText="Name" sortBy="#{dto.name}" filterBy="#{dto.name}"
+                                          filterMatchMode="contains">
+                                    <h:outputText value="#{dto.name}" />
+                                </p:column>
+
+                                <p:column headerText="Type" sortBy="#{dto.type}" filterBy="#{dto.type}"
+                                          filterMatchMode="contains" width="200">
+                                    <h:outputText value="#{dto.type}" />
+                                </p:column>
+
+                                <p:column headerText="Action" sortable="false" filterable="false" width="200">
+                                    <p:commandLink id="editDto" onclick="selectRow('ingredientFamilyDataTable', #{tableIndex});"
+                                                   oncomplete="showDialog('crudDialog')" update=":crudDialogForm"
+                                                   title="#{msg['all.label.edit']}">
+                                        <i class="pi pi-fw pi-pencil" aria-hidden="true"/>
+                                        <f:setPropertyActionListener value="#{dto}" target="#{controller.editSelectedDto}"/>
+                                        <p:resetInput target=":crudDialogForm"/>
+                                    </p:commandLink>
+
+                                </p:column>
+                            </p:dataTable>
 
                         </p:panel>
                     </h:form>
